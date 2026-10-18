@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Node and FUXA local state
+node_modules/
+.fuxa/
+
+# Secrets and local databases
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sqlite
+*.sqlite3
+instance/
+
+# Runtime evidence is retained locally; deliberately select sanitized release proof.
+evidence/*
+!evidence/README.md
+*.log
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local distribution packages
+artifacts/
