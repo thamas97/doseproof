@@ -1,0 +1,987 @@
+Source: DoseProof_Layer_1_All_Member_Task_Runbook.docx
+Plain text reference extracted from the supplied DOCX. Paragraph order is preserved; table cells are linearized and embedded hyperlinks are not reproduced. Consult the original DOCX for layout, links, and page references.
+This source is planning context. Its procedures are not proof of execution or completion.
+
+DoseProof Layer 1 team action runbook
+All 36 subtasks mapped to six members over five working days
+1 Purpose and daily working agreement
+We will develop one software water-treatment plant with a model, virtual controller, dosing pump, two sensors, authenticated request and approval desk, FUXA screen and saved source records. Every member contributes to every main WBS task from 1.1 to 1.9. The detailed procedures cover all subtasks from 1.1.1 through 1.9.4.
+Each person contributes one hour per day for five days: five hours each and 30 team-hours. Day 1–Day 5 are working-day positions. The source PDF’s October 14–20 dates are retained as context, not newly confirmed dates or claims of completed work.
+Day
+Allocation within the daily hour
+Assigned work
+1
+15 min kickoff/professor checkpoint + 5 min planning + 35 min work + 5 min board update
+35 min
+2 to 4
+5 min sync + 45 min work + 5 min peer review + 5 min correction reserve
+45 min each
+5
+5 min sync + 35 min acceptance/corrections + 15 min demo/retrospective + 5 min board update
+35 min
+
+The 15-minute professor slot is reserved in Day 1 as a planning placeholder. Once actual weekdays are set, move that slot to Wednesday and exchange an equal focused block with Day 1. Weekly capacity stays the same; a longer meeting reduces work rather than adding hours.
+Usual roles and temporary Layer 1 work
+Member
+Usual role
+This sprint focus
+Thabani
+Project lead
+Scope and integration acceptance
+Tranos
+Simulation and SCADA
+FUXA setup and process screen
+Emmanuel
+Collection and data quality
+Sensor sources and event examples
+Katekiso
+Evidence and rules
+Teaching model and expected outcomes
+Stephen
+Database and API
+Virtual controller and command interface
+Donald
+Operator desk and dashboard
+Authenticated request and approval desk
+
+These are shared sprint assignments, not permanent role changes. A review or test is a real contribution and consumes the named person’s time. All work and every live check begin as pending.
+
+2 Sequence capacity and how to use the runbook
+Use the two pages for each main task: its four subtask procedures, then the six-member contribution map. The personal daily sheets on pages 23–28 show when to perform those contributions. WBS IDs identify scope; the work overlaps as interfaces become ready.
+Day
+Integration result and dependency
+1
+Agree scope, units, model interface, register map and source fields. Begin FUXA/Python setup and the named-user desk in parallel.
+2
+Show the first live tag and saved restart. Join model/controller interfaces, two sensor sources and different-user approval.
+3
+Trace an approved desk action through command, acknowledgement, actual delivery and delayed A/B response. Save a normal baseline.
+4
+Check equipment/sensor faults, approval rejection, source examples and unavailable display. Fix the approved path before screen polish.
+5
+Repeat critical checks, perform independent startup/reset and review all nine acceptance results. Keep unfinished work in the backlog.
+
+Focused minutes across all nine main tasks
+WBS
+Thabani
+Tranos
+Emmanuel
+Katekiso
+Stephen
+Donald
+Team
+1.1
+20
+5
+5
+5
+5
+10
+50
+1.2
+5
+35
+5
+15
+25
+10
+95
+1.3
+20
+5
+15
+70
+15
+5
+130
+1.4
+15
+15
+15
+30
+80
+20
+175
+1.5
+15
+10
+10
+10
+20
+90
+155
+1.6
+10
+10
+60
+15
+15
+5
+115
+1.7
+10
+75
+10
+10
+10
+15
+130
+1.8
+10
+10
+50
+10
+10
+15
+105
+1.9
+100
+40
+35
+40
+25
+35
+275
+Total
+205
+205
+205
+205
+205
+205
+1230
+
+Assigned work totals 20.5 team-hours. Shared meetings, review, updates and reserve total 9.5 hours. Each member totals 300 minutes. Group budgets match the source WBS; individual allocations and subtask participation have been redistributed to include all six in every main task.
+This is a stretch plan for beginners using small examples and existing runtimes. Stop at the daily hour. A missing interface, failed test or unfinished feature remains visible with an owner and a new estimate. Completion requires observable behaviour, not just files or configured switches.
+
+3 Shared model and source contracts
+Proposed implementation choices for the Day 1 agreement follow. They make handoffs concrete and can be changed together before integration. They are teaching settings, not real treatment operating limits.
+Contract
+Agreed starting proposal
+One plant engine
+model.py, controller.py, sensors.py, desk.py and events.py in one Python application. One loop owns state; desk commands enter through an internal queue.
+Teaching baseline
+One-second tick; flow 10 L/s; accepted feed 15 mg/s; demand 0.50 mg/L; initial residual 1.00 mg/L.
+Delayed response
+For positive flow, target = max(0, actual feed / flow − demand). Delay four ticks, then move residual one fifth of the difference toward that target each tick.
+Approved step
+Change accepted feed from 15 to 20 mg/s. Actual feed changes first; residual then tends from 1.00 toward 1.50 mg/L after the teaching delay.
+Equipment modes
+No flow stops delivery without division; stopped pump gives zero delivery; reduced delivery uses factor 0.5; ignored command retains prior accepted feed.
+Reset and pause
+Pause freezes simulation steps. Reset clears queues/faults and restores initial state/seeds. Create a new run ID and preserve prior source files.
+Two sensor sources
+A and B sample residual, with separate source IDs and Random seeds 101/202. Proposed noise is bounded at ±0.01 mg/L.
+Sensor modes
+Missing suppresses samples; delayed emits five seconds late with original sample time; stuck holds a measurement; bias adds +0.40 mg/L to one source.
+
+Event envelope and source ownership
+Each producer supplies schema_version, run_id, event_id, source_id, source_seq, event_type, source_timestamp_utc, emitted_at_utc and sim_step. Add value, unit and quality for observations; actor, equipment, chemical, target and approval expiry for actions. Share change_id through the action trail where known; sensor samples normally use null change_id.
+Use JSONL, one complete event per line, under evidence/<run_id>/. A common writer preserves original IDs and times. Unknown fields use null plus a reason. Label illustrative fixtures separately from captured runtime records. Both sensors share software and a laptop; their independence is limited.
+Repeatability compares residual and sensor values by relative simulation step using the same saved parameters and seeds. Fresh run IDs, unique event IDs and different UTC timestamps are expected. Source collection, normalization and assurance verdicts remain in layers 2–8.
+
+4 Setup register mapping and service order
+Use one designated demonstration computer and local project folder. Tranos and Stephen coordinate setup; Donald adds desk dependencies after .venv is available. Use existing successful setup where possible.
+py -3.12 -m venv .venv.\.venv\Scripts\python.exe -m pip install pymodbus==3.16.1npm.cmd install --save-exact @frangoteam/fuxa@1.3.4.\.venv\Scripts\python.exe -m pip install Flask Flask-WTF.\.venv\Scripts\python.exe -m pip freeze > requirements.lock.txt
+Record Python, Node, npm and package versions; preserve package-lock.json. The earlier action plan used Python 3.12.10 and Node 24.14.1. These commands install dependencies only. Full model, desk and app.py are development outputs, not supplied programs. Use npm.cmd if PowerShell blocks npm.ps1.
+Protocol
+FUXA
+Snapshot field
+Type and conversion
+0 / 1
+1 / 2
+Sensor A / B residual
+UInt16; divide by 100 for mg/L
+2
+3
+Water flow
+UInt16; divide by 100 for L/s
+3 / 4
+4 / 5
+Requested / accepted feed
+UInt16; divide by 100 for mg/s
+5
+6
+Actual delivery
+UInt16; divide by 100 for mg/s
+6
+7
+Pump state
+0 stopped; 1 running
+7
+8
+Acknowledgement counter
+Counter; document wrap
+8 / 9
+9 / 10
+A / B quality
+0 good; 1 uncertain; 2 bad; 3 unavailable
+10 / 11
+11 / 12
+A / B sample age
+Seconds; saturate at 65535
+12
+13
+Plant tick counter
+Counter; document wrap
+
+Use Modbus TCP 127.0.0.1:1502, device 1, Holding Registers and 1000 ms polling. FUXA 1.3.4 subtracts one from its UI address. First connection uses one register only; expand to the map above after the model replaces the test source. Apply scaling once.
+Keep execution in the authenticated desk on 127.0.0.1:5000. FUXA on port 1881 displays snapshots; save the same state folder and export JSON. Stephen enforces observer write restrictions server-side and verifies them; hiding FUXA controls alone is insufficient. Default PyModbus is not automatically a read-only boundary.
+Normal order after implementation: start app.py, confirm ticks/source records, start saved FUXA, open desk/view and read independently. Disable web debug/reloader so the engine starts once. Save FUXA before stopping; use Ctrl+C only in the project’s own service windows. Port conflicts are reported, not solved by stopping unrelated programs.
+
+WBS 1 1 detailed subtask procedures
+Define the simulation scope and user stories.
+Before starting No implementation dependency. Use the project description and the supplied WBS as scope inputs.
+1 1 1 Describe the treatment line
+WBS 1.1.1 Describe one treatment line: water flow, chlorine dosing pump, contact tank and two virtual chlorine sensors.
+Draw inlet → flow → dosing pump → contact tank → sensor A and sensor B. Put requested setting, actual delivery and measurements on separate labels. Tranos checks display feasibility; Stephen checks control meanings. Save one agreed sketch rather than six competing versions.
+1 1 2 Agree teaching settings
+WBS 1.1.2 Agree the teaching assumptions, units and response delays; label values as simulation settings rather than real treatment limits.
+Agree the units, fixed tick, initial state and teaching delay in section 3. Katekiso checks the toy calculation; Emmanuel checks measurement units. Mark every value as a simulation choice. Record what pause/reset means before any module depends on it.
+1 1 3 Write five small stories
+WBS 1.1.3 Write small stories for normal operation, an approved change, an unapproved change, equipment failure and unreliable sensor readings.
+Write a short story for normal operation, approved change, lab-unapproved change, equipment fault and unreliable monitoring. Donald checks which named actor requests and approves. Stephen identifies the acknowledgement and actual equipment outcome for each story.
+1 1 4 Define checks and evidence
+WBS 1.1.4 Define the expected behaviour and evidence for each story before implementation.
+For each story, state starting conditions, one action, expected observation and evidence filename. Include the source record, screen proof and reviewer. All six review their own interface expectations in their assigned minutes; Thabani records the agreed result.
+Acceptance Each story has an observable expected result and a simple acceptance check.
+Save scope.md; process-sketch.png; story-checks.md.
+
+WBS 1 1 contributions from all six members
+Define the simulation scope and user stories. Focused team budget: 50 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.1.1, 1.1.2, 1.1.3, 1.1.4
+D1 20mTotal 20m
+Lead the sketch and scope agreement; write five stories and observable checks. Incorporate the other members’ feedback.Save: scope.md and story-checks.md.
+Tranos
+1.1.1
+D1 5mTotal 5m
+Check the process sketch can be shown with simple FUXA symbols; identify labels a beginner needs.Save: annotated process sketch.
+Emmanuel
+1.1.2, 1.1.4
+D1 5mTotal 5m
+Confirm sensor identity, units, timestamps and missing-data expectations in the stories.Save: data requirements in scope.md.
+Katekiso
+1.1.2, 1.1.4
+D1 5mTotal 5m
+Check the teaching assumptions and expected delayed response are understandable and testable.Save: model assumptions and expected outcomes.
+Stephen
+1.1.1, 1.1.3
+D1 5mTotal 5m
+Check each story distinguishes request, accepted setting, acknowledgement and actual delivery.Save: controller behaviour notes.
+Donald
+1.1.3, 1.1.4
+D1 10mTotal 10m
+Define requester and different-user approver steps; explain the labelled lab-unapproved case.Save: approval story and actor checks.
+
+Review and integration
+Implementation coordinator Thabani. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done scope.md; process-sketch.png; story-checks.md. The receiving member must be able to use the output.
+Resources R15 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 2 detailed subtask procedures
+Set up the reusable software and first connection.
+Before starting 1.1 identifies units and teaching values. A Windows demo computer, Python, Node and package-download access are available.
+1 2 1 Install and record versions
+WBS 1.2.1 Install the open-source version of FUXA and Python with PyModbus on the development laptop; record the versions used.
+Tranos installs FUXA locally; Stephen creates .venv and pins PyModbus. Use the preparation commands in section 4 and record versions and successful startup. Reuse verified setup already present. Missing runtime or native dependency failure is a blocker; do not change unrelated global installations.
+1 2 2 Configure the Modbus connection
+WBS 1.2.2 Install the FUXA Modbus driver through Plugins and configure a local connection to the virtual device.
+Tranos enables the Modbus driver through Plugins. Stephen runs the first test source at 127.0.0.1:1502, device 1. Katekiso configures Holding Registers and one-second polling. Publish the protocol-to-FUXA address mapping before binding.
+1 2 3 Show a changing test reading
+WBS 1.2.3 Configure one test reading in PyModbus and bind it to a numeric display in FUXA; verify the address, units and scaling.
+Stephen provides raw 100, 110 and 120 cycling every two seconds. Emmanuel reads protocol address 0 independently. Katekiso binds FUXA UI address 1, UInt16 and divisor 100 once. Observe all three values as 1.00, 1.10 and 1.20 mg/L; keep the simulation label.
+1 2 4 Save and prove restart
+WBS 1.2.4 Save the configuration and prove that the reading still appears after stopping and restarting both applications.
+Save Project and export its JSON; preserve the same state folder. Donald follows the guide to stop and restart the controller and FUXA using their own terminals. Confirm the same view changes without reconfiguration. This first connection is later replaced by the model-driven source.
+Acceptance One changing virtual reading is visible in FUXA without physical hardware.
+Save versions.txt; first-readback.jsonl; first FUXA JSON; restart notes.
+
+WBS 1 2 contributions from all six members
+Set up the reusable software and first connection. Focused team budget: 95 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.2.1
+D1 5mTotal 5m
+Check runtime availability and record the authoritative demo computer, folder and acceptance proof needed.Save: setup checklist.
+Tranos
+1.2.1, 1.2.2, 1.2.3, 1.2.4
+D1 30m; D2 5mTotal 35m
+Install local FUXA, enable Modbus, confirm the binding with Katekiso and save the first project.Save: versions.txt and FUXA export.
+Emmanuel
+1.2.3
+D1 5mTotal 5m
+Read the first controller register independently and verify its units and scale against the agreed map.Save: first-readback.jsonl.
+Katekiso
+1.2.2, 1.2.3, 1.2.4
+D2 15mTotal 15m
+Build the numeric output and verify address, conversion, three values and saved configuration.Save: first-connection screen evidence.
+Stephen
+1.2.1, 1.2.2, 1.2.3
+D1 15m; D2 10mTotal 25m
+Create the Python environment and the small changing-register source; publish its endpoint and correct API version.Save: test controller and requirements.
+Donald
+1.2.4
+D2 10mTotal 10m
+Follow the first-connection startup guide independently; stop/restart only the two project services.Save: first-restart-notes.md.
+
+Review and integration
+Implementation coordinator Tranos. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done versions.txt; first-readback.jsonl; first FUXA JSON; restart notes. The receiving member must be able to use the output.
+Resources R1 R2 R3 R5 R6 R7 R8 R9 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 3 detailed subtask procedures
+Develop the simple water-treatment model.
+Before starting 1.1 teaching assumptions and a small input/output contract; implement the model independently of screen setup.
+1 3 1 Define model inputs and outputs
+WBS 1.3.1 Represent water flow and chlorine feed using a small Python model with clearly documented inputs and outputs.
+Katekiso writes model.py with flow and accepted feed as inputs and actual feed and residual as outputs. Stephen agrees tick/reset interfaces; Emmanuel agrees how sensors read residual. Tranos checks display names. Keep calculations outside FUXA and avoid a second model in the desk.
+1 3 2 Calculate delayed residual
+WBS 1.3.2 Calculate a simplified chlorine residual after mixing and delay in the contact tank; use a documented chlorine-demand assumption.
+Use the proposed teaching calculation in section 3: actual feed divided by positive flow, minus fixed demand, followed by artificial delay and smoothing. Initialize at baseline. Verify the written 1.00-to-1.50 example by model step; do not use a real treatment safety claim as acceptance.
+1 3 3 Separate setting from delivery
+WBS 1.3.3 Keep the requested pump setting separate from actual simulated delivery so a running command can still produce poor or zero delivery.
+Retain requested, accepted and actual feed as separate fields. An ignored command leaves the accepted setting unchanged; a stopped or impaired pump can deliver zero or less despite acceptance. Thabani reviews these distinctions; Stephen connects only actual feed to the water-state calculation.
+1 3 4 Add controls and saved scenarios
+WBS 1.3.4 Add initial values, start/pause/reset controls and saved scenario settings; fix random seeds when noise is used.
+Provide start, pause and reset, plus scenario JSON with initial state, flow, demand, delay, seeds and faults. Reset queues and noise generators; keep prior run files and create a new run ID. Replay the same timeline twice and compare values by simulation step, not UTC timestamps.
+Acceptance Resetting a saved scenario reproduces the same model behaviour.
+Save model.py; scenario JSON; replay comparison.
+
+WBS 1 3 contributions from all six members
+Develop the simple water-treatment model. Focused team budget: 130 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.3.1, 1.3.2, 1.3.3, 1.3.4
+D1 5m; D2 15mTotal 20m
+Approve the toy units and response examples; check reset semantics and separate requested versus delivered values.Save: reviewed model checks.
+Tranos
+1.3.1
+D2 5mTotal 5m
+Confirm which model outputs and units will appear on the process screen; keep calculations in Python.Save: model-to-display field list.
+Emmanuel
+1.3.1, 1.3.2, 1.3.4
+D1 5m; D2 10mTotal 15m
+Review the residual sampling interface and seeded replay; ensure sensors consume water state.Save: model-sampling notes.
+Katekiso
+1.3.1, 1.3.2, 1.3.3, 1.3.4
+D1 25m; D2 20m; D3 25mTotal 70m
+Implement flow/feed inputs, fixed demand and delayed response; separate delivery and provide saved resettable scenarios.Save: model.py and scenarios/.
+Stephen
+1.3.1, 1.3.3, 1.3.4
+D2 10m; D3 5mTotal 15m
+Integrate the model input/output contract and state reset with the controller loop without duplicating calculations.Save: engine/model adapter.
+Donald
+1.3.4
+D2 5mTotal 5m
+Check pause/reset and scenario selection can be explained and invoked from the lab controls and guide.Save: model control instructions.
+
+Review and integration
+Implementation coordinator Katekiso. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done model.py; scenario JSON; replay comparison. The receiving member must be able to use the output.
+Resources R13 R14 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 4 detailed subtask procedures
+Configure the virtual controller and equipment behaviour.
+Before starting 1.3 model interface and 1.8 event draft. Start the map early; use example states until the model is ready.
+1 4 1 Publish the register map
+WBS 1.4.1 Define a Modbus register map for requested dose, accepted setting, pump state, water flow and actual delivery, including units and writable fields.
+Stephen publishes register names, protocol and FUXA addresses, type, scale and allowed writers. Include requested feed, accepted feed, pump state, water flow and actual delivery, then sensor quality/age fields. Tranos and Emmanuel review mapping and meanings before the screen is bound.
+1 4 2 Connect controller and model
+WBS 1.4.2 Use the PyModbus server as the virtual device interface and connect it to the plant model; implement the small control behaviour required.
+One plant loop owns mutable state. Donald submits an authenticated command through an internal queue; Stephen applies or rejects it, ticks Katekiso’s model and publishes snapshots. Expose reads through PyModbus. Avoid starting a second engine from a web debug reloader or an observer process.
+1 4 3 Separate acknowledgement and feedback
+WBS 1.4.3 Return command acknowledgement separately from equipment feedback; record whether a setting was accepted and what the pump actually delivered.
+Record command acceptance or rejection with a reason and change ID. Emit equipment feedback separately from the model, with actual delivery and its own source time. Donald and Emmanuel inspect one trail. An accepted acknowledgement is not proof that the pump delivered the requested feed.
+1 4 4 Add no flow and equipment faults
+WBS 1.4.4 Add no-flow behaviour and selectable faults for an ignored command, a stopped pump and reduced delivery.
+Implement selectable no-flow, ignored-command, stopped-pump and reduced-delivery cases. Katekiso supplies model-side effects; Stephen wires controller behavior. Test one fault at a time. Preserve old accepted state for ignored commands; prevent division by zero at no flow; retain records of the actual outcome.
+Acceptance A command, its acknowledgement and the resulting equipment behaviour can be distinguished.
+Save register-map.md; command/ack/feedback records; fault checks.
+
+WBS 1 4 contributions from all six members
+Configure the virtual controller and equipment behaviour. Focused team budget: 175 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.4.1, 1.4.3
+D2 15mTotal 15m
+Review the register meanings and command/acknowledgement/feedback distinction against story checks.Save: reviewed controller checks.
+Tranos
+1.4.1, 1.4.3
+D2 10m; D3 5mTotal 15m
+Check FUXA/protocol addresses and scaling; confirm equipment feedback is separate from command status.Save: tag-to-register mapping.
+Emmanuel
+1.4.1, 1.4.3
+D1 5m; D2 5m; D3 5mTotal 15m
+Review command and equipment source records for separate event types, times and known linkage.Save: acknowledgement/feedback sample review.
+Katekiso
+1.4.1, 1.4.2, 1.4.4
+D1 5m; D2 5m; D3 15m; D4 5mTotal 30m
+Define model-side delivery inputs; implement no-flow, stopped-pump and reduced-delivery effects.Save: equipment behaviour functions.
+Stephen
+1.4.1, 1.4.2, 1.4.3, 1.4.4
+D1 15m; D2 20m; D3 20m; D4 25mTotal 80m
+Own the map and controller integration; implement acknowledgement and fault switches, including ignored commands.Save: controller.py and register-map.md.
+Donald
+1.4.2, 1.4.3
+D2 10m; D3 10mTotal 20m
+Agree the private execution interface and preserve the authenticated actor and change ID through the response.Save: desk/controller interface notes.
+
+Review and integration
+Implementation coordinator Stephen with Katekiso. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done register-map.md; command/ack/feedback records; fault checks. The receiving member must be able to use the output.
+Resources R6 R8 R9 R16 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 5 detailed subtask procedures
+Develop the operator request and approval desk.
+Before starting 1.1 actor stories; 1.4 command contract; 1.8 event fields. Begin UI and authentication before live execution wiring.
+1 5 1 Create the authenticated request desk
+WBS 1.5.1 Create a small authenticated interface for named operators to request a dose change; record change ID, equipment, chemical, target and time.
+Donald creates a small local Flask login/request interface with named users and hashed passwords. Derive actor identity from the server session; reject anonymous submissions and invalid numeric targets. Generate change ID and request time; retain equipment, chemical and target. Use CSRF protection for state changes.
+1 5 2 Approve as a different user
+WBS 1.5.2 Allow a different named user to approve a request; record the approver, approved value or range, expiry and approval time.
+A different authenticated user approves the request. Record approver, exact permitted value or range, expiry and approval time. Reject self-approval on the server. Emmanuel checks record fields; Thabani checks the story. Use separate browser sessions or log out between users when testing.
+1 5 3 Execute and retain the change trail
+WBS 1.5.3 Execute approved requests through the virtual controller; retain the request, approval, command and acknowledgement with the same change ID.
+At execution, recheck identity, distinct approver, target/equipment/chemical match, expiry and unused approval. Submit one command to Stephen’s queue; retain request, approval, command and acknowledgement with the same change ID. Reject duplicate execution and save the reason instead of silently retrying.
+1 5 4 Add the labelled lab scenario
+WBS 1.5.4 Add an explicitly labelled lab-only unapproved-change scenario that retains the actor and command records for DoseProof to assess later.
+Add a separate, clearly labelled local lab-unapproved action, disabled by default. Require a named lab actor and deliberate lab-mode selection. Retain actor, command, missing approval and response. Never route normal execution through this bypass. Disable lab mode after its demonstration.
+Acceptance Approved and intentionally unapproved lab changes both leave traceable records.
+Save desk.py; request/approval trail; negative-test notes.
+
+WBS 1 5 contributions from all six members
+Develop the operator request and approval desk. Focused team budget: 155 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.5.1, 1.5.2, 1.5.3, 1.5.4
+D2 5m; D3 10mTotal 15m
+Review request/approval stories, then observe approved and lab-unapproved trails against expected outcomes.Save: desk acceptance observations.
+Tranos
+1.5.1, 1.5.3
+D2 5m; D3 5mTotal 10m
+Check the desk is visually separate from the read-only FUXA display and the command response can be observed.Save: desk/display boundary notes.
+Emmanuel
+1.5.2, 1.5.3
+D2 5m; D3 5mTotal 10m
+Check approval metadata and request-to-acknowledgement source records retain identities and change ID.Save: approval and execution event review.
+Katekiso
+1.5.3, 1.5.4
+D4 10mTotal 10m
+Test that approved and lab-unapproved cases produce the expected model response and visibly distinct records.Save: desk-to-model check results.
+Stephen
+1.5.3, 1.5.4
+D3 10m; D4 10mTotal 20m
+Connect approved commands to the controller queue; retain acknowledgements and support the labelled lab scenario.Save: command adapter and response examples.
+Donald
+1.5.1, 1.5.2, 1.5.3, 1.5.4
+D1 20m; D2 20m; D3 25m; D4 25mTotal 90m
+Build login, request and different-user approval; recheck expiry/value at execution and implement the labelled lab path.Save: desk.py and approval test records.
+
+Review and integration
+Implementation coordinator Donald. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done desk.py; request/approval trail; negative-test notes. The receiving member must be able to use the output.
+Resources R10 R11 R12 R17 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 6 detailed subtask procedures
+Develop two virtual sensor sources.
+Before starting 1.3 residual output and reset semantics; 1.8 source metadata contract. Fixtures can support early integration.
+1 6 1 Sample water state twice
+WBS 1.6.1 Create sensors A and B that sample the modeled water state instead of copying the controller setpoint or FUXA display.
+Emmanuel creates A and B samplers that read Katekiso’s residual state. They must not copy the dose setpoint, accepted feed or the FUXA display. Keep a clean model truth field for comparison. Stephen publishes the sampled values separately to the observer registers.
+1 6 2 Add separate source metadata
+WBS 1.6.2 Give each sensor its own source ID, sequence number, timestamp, reading, units and quality indication; configure separate noise seeds.
+Give A and B separate source IDs, sequences, sample times, values, units and quality. Use separate seeded noise generators and reset them consistently. Donald reviews labels and metadata; Tranos agrees display fields. A new event must have a unique ID even if its value repeats.
+1 6 3 Add selectable sensor faults
+WBS 1.6.3 Add selectable missing, delayed, stuck and biased readings; allow one sensor to disagree with the other.
+For one source at a time, missing suppresses samples, delayed queues samples with original times, stuck holds a value while sequence/time may advance, and biased adds an offset. Keep the other source normal. Publish last-sample age and quality separately from the retained value.
+1 6 4 Test faults and state limitations
+WBS 1.6.4 Test each sensor fault separately and document that both sensors share a software model and laptop, so independence is limited.
+Reset before each fault test and save the affected source, expected result and actual records. Compare A against B and model truth. Missing data must not become a fresh zero. Document that both sources share a software model and laptop; separate seeds do not establish physical independence.
+Acceptance The two sources can report different measurements and fail separately in the simulation.
+Save sensors.py; A/B records; four fault results.
+
+WBS 1 6 contributions from all six members
+Develop two virtual sensor sources. Focused team budget: 115 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.6.1, 1.6.2, 1.6.3, 1.6.4
+D2 5m; D3 5mTotal 10m
+Confirm sensor story expectations and review which fault affects which source, with software independence limits.Save: reviewed sensor acceptance checks.
+Tranos
+1.6.1, 1.6.2, 1.6.3
+D2 5m; D3 5mTotal 10m
+Agree A/B tag, unit, quality and age fields; confirm the display can show source loss or disagreement.Save: sensor display contract.
+Emmanuel
+1.6.1, 1.6.2, 1.6.3, 1.6.4
+D2 20m; D3 20m; D4 20mTotal 60m
+Implement two model samplers with separate metadata/seeds; add and test missing, delayed, stuck and biased modes.Save: sensors.py and sensor-fault-results.md.
+Katekiso
+1.6.1, 1.6.3, 1.6.4
+D2 5m; D4 10mTotal 15m
+Verify readings derive from residual; compare faulted A with model truth and normal B using saved settings.Save: sensor/model comparison.
+Stephen
+1.6.1, 1.6.2, 1.6.3
+D3 10m; D4 5mTotal 15m
+Publish A/B snapshots and quality/age through the controller without treating missing readings as fresh zero.Save: sensor register updates.
+Donald
+1.6.2
+D3 5mTotal 5m
+Check A and B source metadata and fault selection labels are clear in scenario notes and the walkthrough.Save: sensor walkthrough notes.
+
+Review and integration
+Implementation coordinator Emmanuel. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done sensors.py; A/B records; four fault results. The receiving member must be able to use the output.
+Resources R13 R14 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 7 detailed subtask procedures
+Configure the FUXA process screen.
+Before starting 1.2 first live reading, 1.4 register map and 1.6 source quality/age meanings. Sketch layout while waiting.
+1 7 1 Create the process view
+WBS 1.7.1 Use the FUXA editor to create a simple screen showing the water inlet, dosing pump, contact tank and sensors with clear labels.
+Tranos builds one labelled view showing water inlet, dosing pump, contact tank and A/B sensors. Thabani reviews it as a beginner. Use output symbols and clear captions. Keep operator requests and approvals in the desk; start with simple shapes before visual polish.
+1 7 2 Bind real virtual readings
+WBS 1.7.2 Bind the equipment symbols and displays to virtual readings; verify pump state, flow, requested setting, actual delivery and chlorine units.
+Bind requested setting, accepted setting, actual delivery, pump state, flow and A/B readings to the agreed registers. Check each value against the independent client and model truth. Show engineering units and conversions once. Do not animate pump delivery using only the command-request state.
+1 7 3 Show trends and unavailable data
+WBS 1.7.3 Add sensor trends and connection or stale-data indications; show unavailable values clearly instead of treating them as zero.
+Add A/B trends and source quality/age or connection indicators. Stop or delay A while B continues. Show stale/unavailable explicitly; a retained value alone is insufficient. Emmanuel checks metadata and Katekiso checks the physical response. Device connectivity alone does not prove sensor freshness.
+1 7 4 Keep dose execution in the desk
+WBS 1.7.4 Keep dose execution in the request/approval desk; configure this FUXA view for reading and remove dose-write controls.
+Remove dose inputs, sliders, buttons and attached write actions from this FUXA view. Donald verifies ordinary execution remains in the authenticated desk. Stephen checks observer permissions separately; hiding controls is not access enforcement. Save the final view, bindings and exported project.
+Acceptance A beginner can follow the process and distinguish settings, equipment feedback and sensor readings.
+Save final FUXA JSON; trend and unavailable-state proof.
+
+WBS 1 7 contributions from all six members
+Configure the FUXA process screen. Focused team budget: 130 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.7.1, 1.7.2, 1.7.4
+D2 5m; D3 5mTotal 10m
+Review the layout as a beginner and check settings, feedback and read-only display purpose are distinguishable.Save: screen review notes.
+Tranos
+1.7.1, 1.7.2, 1.7.3, 1.7.4
+D2 10m; D3 30m; D4 35mTotal 75m
+Build the process screen; bind values, add A/B trends and stale/unavailable indications, and remove dose-write controls.Save: FUXA process project JSON.
+Emmanuel
+1.7.2, 1.7.3
+D3 5m; D4 5mTotal 10m
+Verify A/B timestamps/quality support the display and stale or absent samples are not shown as fresh zero.Save: sensor/display evidence.
+Katekiso
+1.7.2, 1.7.3
+D4 10mTotal 10m
+Compare actual delivery and sensor response on the screen with model truth; check the delayed response.Save: model/display cross-check.
+Stephen
+1.7.2, 1.7.4
+D5 10mTotal 10m
+Verify final register bindings and observer access policy; prove state-changing access cannot be gained via the observer.Save: mapping and access check.
+Donald
+1.7.4
+D4 15mTotal 15m
+Inspect the view for write controls and confirm ordinary dose execution remains in the authenticated desk.Save: display execution-control review.
+
+Review and integration
+Implementation coordinator Tranos. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done final FUXA JSON; trend and unavailable-state proof. The receiving member must be able to use the output.
+Resources R2 R3 R4 R5 R6 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 8 detailed subtask procedures
+Prepare source records for the evidence connectors.
+Before starting 1.1 story list. Draft early; collect real examples as 1.4–1.6 become available.
+1 8 1 Agree source event fields
+WBS 1.8.1 Agree the event fields with element 2: run ID, event ID, change ID where applicable, source ID, sequence, timestamps, units and quality.
+Emmanuel publishes the event envelope in section 3 and agrees it with the future connector owner. All six supply their source-specific fields. Include stable IDs, sequence, UTC source time, value/unit/quality and change ID when truly known. Confirm this is source preparation, not a layer 2 connector.
+1 8 2 Produce each source record family
+WBS 1.8.2 Produce local sample records for requests, approvals, commands, acknowledgements, equipment feedback and each sensor source.
+Produce a request, approval, command, acknowledgement, equipment feedback and separate A/B sample record. Donald owns actor records; Stephen supplies controller records; Katekiso supplies model meaning. Use one writer or synchronized appends so JSONL lines cannot interleave.
+1 8 3 Preserve identity and source time
+WBS 1.8.3 Preserve source timestamps and identities; mark missing or unknown information explicitly instead of inventing values.
+Preserve the original source ID, event ID and source timestamp when copying. Delayed samples keep sample time and a later emission time. Use null plus a reason for unknown fields. Never infer that a sensor sample belongs to a change solely because it follows that command.
+1 8 4 Save normal and fault examples
+WBS 1.8.4 Save examples for normal and fault scenarios and document their meaning; leave transport, collection and validation to elements 2 and 3.
+Save examples under named normal, approved, lab-unapproved, equipment and sensor-fault folders. Label hand-authored fixtures separately from captured runtime records; explain expected meaning in a README. Tranos supplies screen paths and Thabani checks coverage. Leave collection, normalization and verdicts to later layers.
+Acceptance Later connectors have documented source records and repeatable examples to consume.
+Save event-schema.md; source-examples/; meaning README.
+
+WBS 1 8 contributions from all six members
+Prepare source records for the evidence connectors. Focused team budget: 105 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.8.1, 1.8.3, 1.8.4
+D1 5m; D3 5mTotal 10m
+Approve the source contract and check normal/fault example coverage without extending work into layers 2 and 3.Save: source acceptance index.
+Tranos
+1.8.1, 1.8.4
+D2 5m; D4 5mTotal 10m
+Identify what FUXA displays versus authoritative source records; save the screen export and scenario evidence paths.Save: screen-to-source notes.
+Emmanuel
+1.8.1, 1.8.2, 1.8.3, 1.8.4
+D1 15m; D2 5m; D3 10m; D4 20mTotal 50m
+Own the event schema, preserve IDs/timestamps, produce all event families and document normal/fault examples.Save: event-schema.md and source-examples/.
+Katekiso
+1.8.2, 1.8.4
+D3 5m; D4 5mTotal 10m
+Supply model feedback samples and explain replay/reset parameters so later readers can interpret the records.Save: model source examples.
+Stephen
+1.8.1, 1.8.2, 1.8.3
+D2 5m; D4 5mTotal 10m
+Supply command, acknowledgement and equipment records; verify true source time and explicit unknown fields.Save: controller source examples.
+Donald
+1.8.1, 1.8.2, 1.8.3, 1.8.4
+D1 5m; D3 5m; D4 5mTotal 15m
+Supply actor/request/approval examples and verify absent approval is explicit in the labelled lab case.Save: desk source examples.
+
+Review and integration
+Implementation coordinator Emmanuel. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done event-schema.md; source-examples/; meaning README. The receiving member must be able to use the output.
+Resources R14 R16 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+WBS 1 9 detailed subtask procedures
+Verify, demonstrate and document the integrated simulation.
+Before starting A joined desk → command → actual delivery → model → A/B path, saved screen and source records. Begin baseline checks on Day 3.
+1 9 1 Check baseline and approved change
+WBS 1.9.1 Run a normal baseline and an approved dose change; check the command trail, actual delivery and delayed sensor response against the story expectations.
+Thabani starts from reset, records baseline and executes a fresh approved change with Donald. Stephen checks command and acknowledgement; Katekiso checks actual delivery then delayed residual; Emmanuel checks A/B source records; Tranos shows the live screen. Compare with the story before marking Met.
+1 9 2 Check unapproved and fault cases
+WBS 1.9.2 Run the unapproved-change, equipment-fault and sensor-fault stories; retain the source records and screenshots that demonstrate each condition.
+Run the labelled lab-unapproved case, each equipment fault and each sensor fault separately. Save run ID, selected fault, expected observation, actual records and screen proof. Use earlier checked evidence for long cases. Restore normal mode and disable lab bypass after each relevant test.
+1 9 3 Prove independent plant operation
+WBS 1.9.3 Verify that the plant can run without DoseProof connected and continues when its monitoring stops; reset and rerun the demonstration.
+Run the plant with no DoseProof connector. Attach a temporary read-only observer, record advancing ticks/source events, stop the observer and confirm the plant continues. Reset and rerun a saved timeline. Verify observer write restrictions separately; repeat with the real connector when it exists.
+1 9 4 Document demonstrate and refine
+WBS 1.9.4 Write a short startup/reset guide, save the FUXA configuration and scenario files, demonstrate the increment and turn feedback into backlog corrections.
+Donald performs startup/reset from the written guide without the implementer supplying missing steps. Everyone saves code, versions, scenarios and their evidence; Tranos exports FUXA. Thabani reviews all nine checks in the demo and puts defects into a named backlog. Creating this runbook does not prove implementation.
+Acceptance The software-only plant is repeatable, demonstrable and ready for elements 2-8 to connect.
+Save acceptance.md; release folder; independent restart; backlog.
+
+WBS 1 9 contributions from all six members
+Verify, demonstrate and document the integrated simulation. Focused team budget: 275 person-minutes. Every row is included in the five-day capacity. D1 means Day 1; m means minutes.
+Member
+Subtasks touched
+Day and minutes
+Action and handoff output
+Thabani
+1.9.1, 1.9.2, 1.9.3, 1.9.4
+D3 20m; D4 45m; D5 35mTotal 100m
+Coordinate baseline, fault, observer-stop and repeatability checks; index evidence and decide acceptance with reviewers.Save: acceptance.md and backlog.
+Tranos
+1.9.2, 1.9.3, 1.9.4
+D4 5m; D5 35mTotal 40m
+Demonstrate faults and stale display; export FUXA and help verify a saved restart without rebuilding tags.Save: final FUXA export and display proof.
+Emmanuel
+1.9.1, 1.9.2, 1.9.3, 1.9.4
+D5 35mTotal 35m
+Capture and review complete event families and sensor cases; package original records and document source limitations.Save: final source examples and sensor notes.
+Katekiso
+1.9.1, 1.9.2, 1.9.4
+D4 5m; D5 35mTotal 40m
+Repeat saved scenarios, compare expected response and seeded replay, then document model limitations.Save: repeatability proof and model guide.
+Stephen
+1.9.2, 1.9.3, 1.9.4
+D5 25mTotal 25m
+Demonstrate equipment response and observer access/continuity; save the final map and command interface.Save: controller/boundary proof.
+Donald
+1.9.1, 1.9.2, 1.9.3, 1.9.4
+D5 35mTotal 35m
+Perform the independent startup/reset and desk walkthrough; demonstrate approved versus lab-unapproved trails.Save: restart guide and desk proof.
+
+Review and integration
+Implementation coordinator Thabani. Coordinates the shared implementation and handoffs listed above.
+Use the relevant four procedures on the previous page. Share draft inputs before a dependent task needs them, then review the actual result. Keep one agreed interface and save changes. A second person’s contribution is charged to that person, even during a joint test.
+Evidence before Done acceptance.md; release folder; independent restart; backlog. The receiving member must be able to use the output.
+Resources R5 R9 R15 in the final reference pages. If blocked for about 15 minutes, report WBS ID, exact error, attempted fixes and help needed to Thabani. Stop at the hour and retain unfinished work.
+
+Thabani five day personal action plan
+Usual role Project lead. Layer 1 focus: Scope and integration acceptance.
+Use the exact subtask IDs below with their procedures on pages 5–22. The task contribution maps explain your handoff output. These are the same minutes already allocated there, not extra work.
+Day
+Exact WBS scope and timebox
+Action sequence and expected handoff
+Day 135m
+1.1.1/1.1.2/1.1.3/1.1.4 (20m)1.2.1 (5m)1.3.1/1.3.2 (5m)1.8.1 (5m)
+Agree the line, stories and checks. Confirm setup ownership, model assumptions and source-field draft with their producers.
+Day 245m
+1.3.2/1.3.3/1.3.4 (15m)1.4.1/1.4.3 (15m)1.5.1/1.5.2 (5m)1.6.1/1.6.2 (5m)1.7.1 (5m)
+Review model reset/delivery, controller acknowledgement, desk identity, sensor semantics and the beginner screen sketch.
+Day 345m
+1.5.3/1.5.4 (10m)1.6.3/1.6.4 (5m)1.7.2/1.7.4 (5m)1.8.3/1.8.4 (5m)1.9.1/1.9.4 (20m)
+Observe desk and sensor paths; review display/source boundaries. Run the first joined normal/approved baseline and update the guide.
+Day 445m
+1.9.1/1.9.2/1.9.3 (45m)
+Coordinate the fault matrix, observer-stop check and repeatability. Record actual gaps and prioritize integration corrections.
+Day 535m
+1.9.1/1.9.2/1.9.3/1.9.4 (35m)
+Review all nine acceptance results, repeat affected checks, approve evidence completeness and record unfinished backlog.
+
+Daily completion and review
+Save the output named in each task map. Record WBS ID, actual result, evidence path, reviewer, blocker and next action on the board. Review partner: Donald. Use the shared review/reserve or demonstration minutes, not another meeting.
+Assigned work: 205 minutes. Coordination, review, updates and reserve: 95 minutes. Total: 300 minutes. If a dependency is late, prepare your example/interface and report the gap. Do not mark a live integration check Done using only a fixture.
+
+Tranos five day personal action plan
+Usual role Simulation and SCADA. Layer 1 focus: FUXA setup and process screen.
+Use the exact subtask IDs below with their procedures on pages 5–22. The task contribution maps explain your handoff output. These are the same minutes already allocated there, not extra work.
+Day
+Exact WBS scope and timebox
+Action sequence and expected handoff
+Day 135m
+1.1.1 (5m)1.2.1/1.2.2 (30m)
+Review the process sketch. Install local FUXA, enable the driver and share a confirmed endpoint/configuration with the team.
+Day 245m
+1.2.3/1.2.4 (5m)1.3.1 (5m)1.4.1 (10m)1.5.1 (5m)1.6.1/1.6.2 (5m)1.7.1 (10m)1.8.1 (5m)
+Finish the first tag/restart check; review field contracts and desk separation, then start the labelled process view.
+Day 345m
+1.4.3 (5m)1.5.3 (5m)1.6.3 (5m)1.7.1/1.7.2 (30m)
+Check live acknowledgement, desk response and sensor fault labels. Bind pump/flow/settings/delivery/A/B in the screen.
+Day 445m
+1.7.3/1.7.4 (35m)1.8.4 (5m)1.9.2 (5m)
+Add trends and unavailable indications; remove write controls, link source examples and observe a fault scenario.
+Day 535m
+1.9.2/1.9.3/1.9.4 (35m)
+Demonstrate saved restart and fault/recovery display. Export the final FUXA project and save display instructions.
+
+Daily completion and review
+Save the output named in each task map. Record WBS ID, actual result, evidence path, reviewer, blocker and next action on the board. Review partner: Katekiso. Use the shared review/reserve or demonstration minutes, not another meeting.
+Assigned work: 205 minutes. Coordination, review, updates and reserve: 95 minutes. Total: 300 minutes. If a dependency is late, prepare your example/interface and report the gap. Do not mark a live integration check Done using only a fixture.
+
+Emmanuel five day personal action plan
+Usual role Collection and data quality. Layer 1 focus: Sensor sources and event examples.
+Use the exact subtask IDs below with their procedures on pages 5–22. The task contribution maps explain your handoff output. These are the same minutes already allocated there, not extra work.
+Day
+Exact WBS scope and timebox
+Action sequence and expected handoff
+Day 135m
+1.1.2/1.1.4 (5m)1.2.3 (5m)1.3.1 (5m)1.4.1 (5m)1.8.1/1.8.3 (15m)
+Review scope units, first readback and model/register meanings. Draft source schema and rules for unknown fields.
+Day 245m
+1.3.2/1.3.4 (10m)1.4.3 (5m)1.5.2 (5m)1.6.1/1.6.2 (20m)1.8.1 (5m)
+Review model delay, feedback and approval fields. Implement separate A/B sampling and finish the source-field contract.
+Day 345m
+1.4.3 (5m)1.5.3 (5m)1.6.2/1.6.3 (20m)1.7.2 (5m)1.8.2 (10m)
+Review actual action trails. Add sensor metadata/fault modes, check screen bindings and capture source examples.
+Day 445m
+1.6.3/1.6.4 (20m)1.7.3 (5m)1.8.2/1.8.3/1.8.4 (20m)
+Test the four sensor faults separately. Check stale display and finish source records, original times and scenario examples.
+Day 535m
+1.9.1/1.9.2/1.9.3/1.9.4 (35m)
+Review sensor/source evidence in integrated cases, package normal/fault examples and record independence limits.
+
+Daily completion and review
+Save the output named in each task map. Record WBS ID, actual result, evidence path, reviewer, blocker and next action on the board. Review partner: Stephen. Use the shared review/reserve or demonstration minutes, not another meeting.
+Assigned work: 205 minutes. Coordination, review, updates and reserve: 95 minutes. Total: 300 minutes. If a dependency is late, prepare your example/interface and report the gap. Do not mark a live integration check Done using only a fixture.
+
+Katekiso five day personal action plan
+Usual role Evidence and rules. Layer 1 focus: Teaching model and expected outcomes.
+Use the exact subtask IDs below with their procedures on pages 5–22. The task contribution maps explain your handoff output. These are the same minutes already allocated there, not extra work.
+Day
+Exact WBS scope and timebox
+Action sequence and expected handoff
+Day 135m
+1.1.2/1.1.4 (5m)1.3.1/1.3.2 (25m)1.4.1 (5m)
+Review teaching assumptions and model/register inputs. Define flow/feed/residual and draft the delayed calculation.
+Day 245m
+1.2.2/1.2.3/1.2.4 (15m)1.3.2/1.3.3 (20m)1.4.2 (5m)1.6.1 (5m)
+Build/check the first numeric display, then implement delayed residual and separate delivery. Review controller and sampler integration.
+Day 345m
+1.3.3/1.3.4 (25m)1.4.4 (15m)1.8.2 (5m)
+Finish saved/resettable scenarios; add no-flow, stopped and reduced-delivery model effects. Supply model feedback examples.
+Day 445m
+1.4.4 (5m)1.5.3/1.5.4 (10m)1.6.3/1.6.4 (10m)1.7.2/1.7.3 (10m)1.8.4 (5m)1.9.1 (5m)
+Review integrated equipment/desk/sensor effects and screen accuracy. Document scenarios and run an approved-response check.
+Day 535m
+1.9.1/1.9.2/1.9.4 (35m)
+Repeat deterministic reset/replay, check the expected curve and document limitations for the final demonstration.
+
+Daily completion and review
+Save the output named in each task map. Record WBS ID, actual result, evidence path, reviewer, blocker and next action on the board. Review partner: Tranos. Use the shared review/reserve or demonstration minutes, not another meeting.
+Assigned work: 205 minutes. Coordination, review, updates and reserve: 95 minutes. Total: 300 minutes. If a dependency is late, prepare your example/interface and report the gap. Do not mark a live integration check Done using only a fixture.
+
+Stephen five day personal action plan
+Usual role Database and API. Layer 1 focus: Virtual controller and command interface.
+Use the exact subtask IDs below with their procedures on pages 5–22. The task contribution maps explain your handoff output. These are the same minutes already allocated there, not extra work.
+Day
+Exact WBS scope and timebox
+Action sequence and expected handoff
+Day 135m
+1.1.1/1.1.3 (5m)1.2.1 (15m)1.4.1 (15m)
+Review request/response stories; prepare Python/PyModbus, start the existing test source for Emmanuel, and publish the register map.
+Day 245m
+1.2.2/1.2.3 (10m)1.3.1/1.3.3 (10m)1.4.2 (20m)1.8.1 (5m)
+Verify the first test source, agree model semantics and connect the real controller/model. Review the source schema.
+Day 345m
+1.3.4 (5m)1.4.3 (20m)1.5.3 (10m)1.6.1/1.6.2 (10m)
+Check reset, emit separate acknowledgement/feedback, connect approved desk commands and publish A/B snapshots.
+Day 445m
+1.4.4 (25m)1.5.4 (10m)1.6.3 (5m)1.8.2/1.8.3 (5m)
+Wire equipment faults and lab command response; check sensor fault snapshots and preserve true source metadata.
+Day 535m
+1.7.2/1.7.4 (10m)1.9.2/1.9.3/1.9.4 (25m)
+Review final screen mapping/permissions, demonstrate faults and observer continuity, and publish the controller guide.
+
+Daily completion and review
+Save the output named in each task map. Record WBS ID, actual result, evidence path, reviewer, blocker and next action on the board. Review partner: Emmanuel. Use the shared review/reserve or demonstration minutes, not another meeting.
+Assigned work: 205 minutes. Coordination, review, updates and reserve: 95 minutes. Total: 300 minutes. If a dependency is late, prepare your example/interface and report the gap. Do not mark a live integration check Done using only a fixture.
+
+Donald five day personal action plan
+Usual role Operator desk and dashboard. Layer 1 focus: Authenticated request and approval desk.
+Use the exact subtask IDs below with their procedures on pages 5–22. The task contribution maps explain your handoff output. These are the same minutes already allocated there, not extra work.
+Day
+Exact WBS scope and timebox
+Action sequence and expected handoff
+Day 135m
+1.1.3/1.1.4 (10m)1.5.1 (20m)1.8.1 (5m)
+Clarify named actors and approval stories; build login/request basics and contribute actor fields to the source schema.
+Day 245m
+1.2.4 (10m)1.3.4 (5m)1.4.2 (10m)1.5.1/1.5.2 (20m)
+Perform the first independent restart, review model controls and execution interface, then implement different-user approval.
+Day 345m
+1.4.3 (10m)1.5.2/1.5.3 (25m)1.6.2 (5m)1.8.2 (5m)
+Integrate execution with controller acknowledgement. Add the lab scenario draft and check sensor/action metadata.
+Day 445m
+1.5.2/1.5.4 (25m)1.7.4 (15m)1.8.3/1.8.4 (5m)
+Test self/expired approval rejection and the lab path, inspect the read-only view and finalize actor/source examples.
+Day 535m
+1.9.1/1.9.2/1.9.3/1.9.4 (35m)
+Run independent startup/reset and approved/lab walkthroughs, correct the guide and save final desk acceptance results.
+
+Daily completion and review
+Save the output named in each task map. Record WBS ID, actual result, evidence path, reviewer, blocker and next action on the board. Review partner: Thabani. Use the shared review/reserve or demonstration minutes, not another meeting.
+Assigned work: 205 minutes. Coordination, review, updates and reserve: 95 minutes. Total: 300 minutes. If a dependency is late, prepare your example/interface and report the gap. Do not mark a live integration check Done using only a fixture.
+
+29 Acceptance release and Agile follow through
+Thabani records Met, Partly met or Blocked for each row with an observed result, file and reviewer. A task is Done only after its observable check and peer review pass. The nine acceptance statements below preserve the source WBS meaning.
+WBS
+Observable acceptance
+Evidence to retain
+1.1
+Each story has an observable expected result and a simple acceptance check.
+scope.md; process-sketch.png; story-checks.md
+1.2
+One changing virtual reading is visible in FUXA without physical hardware.
+versions.txt; first-readback.jsonl; first FUXA JSON; restart notes
+1.3
+Resetting a saved scenario reproduces the same model behaviour.
+model.py; scenario JSON; replay comparison
+1.4
+A command, its acknowledgement and the resulting equipment behaviour can be distinguished.
+register-map.md; command/ack/feedback records; fault checks
+1.5
+Approved and intentionally unapproved lab changes both leave traceable records.
+desk.py; request/approval trail; negative-test notes
+1.6
+The two sources can report different measurements and fail separately in the simulation.
+sensors.py; A/B records; four fault results
+1.7
+A beginner can follow the process and distinguish settings, equipment feedback and sensor readings.
+final FUXA JSON; trend and unavailable-state proof
+1.8
+Later connectors have documented source records and repeatable examples to consume.
+event-schema.md; source-examples/; meaning README
+1.9
+The software-only plant is repeatable, demonstrable and ready for elements 2-8 to connect.
+acceptance.md; release folder; independent restart; backlog
+
+Release folder
+Retain model/controller/sensor/desk code, dependency locks, source schema, register map, scenario JSON/seeds, FUXA export, guide, runtime records, screenshots and acceptance results. Separate fixtures from captured evidence. Exclude credentials and session secrets. Preserve earlier runs.
+Day 5 shared demonstration
+Use the reserved 15 minutes: eight minutes for normal/approved, lab-unapproved, equipment and sensor examples; four minutes to inspect the nine acceptance results; three minutes for the retrospective and next backlog actions. Use prior proof for longer tests; do not attempt every fault for the first time in the demo.
+Board flow: To do → In progress → Review → Done, with Blocked when needed. Within the daily hour, report a blocker after about 15 minutes. Reallocate only the remaining budget and update ownership. A failed required check remains open; keep optional polish behind the integrated command-to-sensor path.
+
+30 Scenario checks and practical troubleshooting
+Before each case, save the current run, reset the named scenario and record run ID, seeds and starting step. Change one fault at a time. Save actual observations rather than screenshots of a configured switch.
+Case
+Action and expected observation
+Baseline and approved
+Run baseline at 10 L/s and 15 mg/s, then a different-user approved 20 mg/s change. Actual delivery changes before residual tends toward 1.50 mg/L; retain the common action change ID.
+Lab unapproved
+Deliberately enable the labelled local lab action. Actor/command/ack records exist and approval is absent. Restore normal mode afterwards.
+Equipment faults
+No flow gives zero delivery without division error; ignored command retains the prior accepted value; stopped pump gives zero actual feed; reduced mode gives half delivery.
+Missing and delayed A
+B continues. Missing A ages/unavailable without fresh zero. Delayed A retains original sample time and shows age.
+Stuck and biased A
+Stuck A holds a value while time/sequence may advance. Bias A adds its offset. Compare with changing model/B; apparent good quality alone does not prove correctness.
+Desk negatives
+Anonymous request, self-approval, expired/mismatched approval and duplicate execution are refused server-side. Check no normal command was executed.
+Observer and restart
+Observer reads succeed; attempted observer writes are denied and plant state stays unchanged. Stop observer and confirm ticks continue. Restart from saved state; replay by simulation step.
+
+Resolve the most likely blockers
+No Modbus connection: check the controller terminal, 127.0.0.1:1502 and device 1. Wrong reading: check Holding Registers, protocol address versus FUXA address, UInt16 and one conversion. A value of 100 instead of 1.00 usually means no scale; a value near 0.01 usually means double division.
+Sensor stale while FUXA is connected: inspect sensor source time/age, not just device connectivity. Reset mismatch: clear delay queues and restore each source seed. Missing project after restart: verify the same FUXA state folder; JSON import is recovery, not normal restart. Save exact install or port errors and escalate within the timebox.
+The five-day schedule is an execution plan. The full plant, desk, faults and server access controls have not been implemented or verified by producing this document. The earlier one-register starter remains a setup resource only.
+
+31 Official resources for setup and control
+Open the relevant reference when a step is unclear. Tutorials may use different versions or settings. Use the pinned project contract for addresses and units, and record actual installed versions.
+R1 FUXA installation and startup
+Tranos. Find the supported installation/startup options; retain the pinned local npm setup in this plan.
+R2 FUXA devices and tags
+Tranos. Configure Connections, Modbus plugin and tag options.
+R3 FUXA binding controls
+Tranos. Bind output displays to the correct device tags.
+R4 FUXA chart control
+Tranos. Add A/B trends after the approved command path works.
+R5 FUXA save and load
+Tranos, Thabani and Donald. Save state, export JSON and distinguish restart from recovery.
+R6 FUXA 1 3 4 Modbus source
+Stephen and Tranos. Verify the UI address minus one conversion and tag divisor behaviour.
+R7 Python virtual environments
+Tranos and Donald. Create .venv and use its interpreter without activation.
+R8 PyModbus server API
+Stephen. Consult startup/shutdown, internal updates and custom request support. Check the 3.16.1 API.
+R9 PyModbus client API
+Stephen and reviewers. Read registers, inspect protocol errors and verify write denial.
+
+32 Official resources for modelling data and teamwork
+Open the relevant reference when a step is unclear. Tutorials may use different versions or settings. Use the pinned project contract for addresses and units, and record actual installed versions.
+R10 Flask authentication tutorial
+Donald. Learn named-user login, sessions and route protection. Adapt only the needed parts.
+R11 Werkzeug password helpers
+Donald. Generate and verify password hashes rather than saving plain passwords.
+R12 Flask security considerations
+Donald. Review session configuration and server-side form protection for the local desk.
+R13 Python seeded randomness
+Katekiso and Emmanuel. Use separate generator instances and reproduce scenarios with saved seeds.
+R14 Python JSON
+Emmanuel and Katekiso. Save scenarios and complete source-event records; JSONL uses one JSON object per line.
+R15 The Scrum Guide
+Thabani and all members. Reference goals, review, retrospective and adaptation. This plan uses a lightweight Agile workflow.
+R16 Python synchronized queues
+Stephen, Donald and Emmanuel. Pass commands/events between threads without multiple writers editing plant state.
+R17 Flask WTF CSRF protection
+Donald. Enable CSRF protection for state-changing forms; record the installed extension version.
+Source and allocation notes
+Source: DoseProof_Layer_1_Week_1_WBS.pdf, supplied by the project lead, seven pages. All 36 original subtask descriptions and nine task acceptance statements are retained. The nine focused team budgets are retained, but work is redistributed so every member has a specific contribution to every main task. Shared activities are counted per attendee.
+Existing roles remain as agreed: Thabani leads; Tranos owns Simulation/SCADA; Emmanuel Collection/Data Quality; Katekiso Evidence/Rules; Stephen Database/API; Donald Operator Desk/Dashboard. Layer 1 technical work is temporary cross-functional sprint work. Proposed module names, model settings and interface contracts support Day 1 refinement.
