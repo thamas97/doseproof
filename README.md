@@ -17,7 +17,7 @@ These values describe a teaching simulation and must not be used as real treatme
 
 ## Start here
 
-1. Read [scope and architecture](docs/architecture.md) and the [source runbook](docs/reference/runbook.txt).
+1. Read the [treatment-line scope and sketch](docs/scope.md), [architecture](docs/architecture.md), and [source runbook](docs/reference/runbook.txt).
 2. Confirm the proposed [register map](docs/register-map.md), [event contract](docs/event-schema.md), and [baseline scenario](scenarios/baseline.json).
 3. Choose a pending WBS item in the [task board](docs/task-board.csv). Every member contributes to every main task.
 4. Follow [CONTRIBUTING.md](CONTRIBUTING.md), save an observed result, and request peer review.
@@ -36,6 +36,14 @@ source-examples/      Illustrative fixtures, distinct from captured records
 evidence/            Locally captured runtime records, ignored by Git
 .github/             Issue and pull request templates
 ```
+
+## Treatment-line sketch
+
+[Scope and review record](docs/scope.md) | [Full-size PNG](docs/process-sketch.png) | [Editable SVG](docs/process-sketch.svg)
+
+![DOS-1 proposed treatment line and its separate control, feedback, sensor and copied-record paths.](docs/process-sketch.png)
+
+The sketch is prepared for Donald's review; Tranos's and Stephen's checks remain pending. It is a design illustration, not captured runtime evidence.
 
 ## Development status
 

@@ -1,5 +1,7 @@
 # Scope and architecture
 
+Start with the [DOS-1 treatment-line description](scope.md), [process sketch PNG](process-sketch.png), or [editable SVG](process-sketch.svg). This documentation is prepared for review; the module and interface proposals below remain unchanged.
+
 The Layer 1 increment is one local, software-only plant. Collection, normalization, validation, and assurance verdicts belong to later layers.
 
 ## Proposed module boundaries

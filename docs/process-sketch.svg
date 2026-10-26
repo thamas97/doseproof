@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1450" viewBox="0 0 1600 1450" role="img" aria-labelledby="title desc">
+  <title id="title">DoseProof DOS-1 simulated treatment-line design</title>
+  <desc id="desc">Water enters at a stated flow, receives chlorine from a separate dosing pump, mixes in a contact tank and exits. Sensors A and B use separate adapters to sample the same modeled water state. The desk sends approved commands, the controller acknowledges them and receives actual delivery feedback, and FUXA reads snapshots. Copied records point only toward future DoseProof layers 2-8. Everything shares one laptop. All human review remains pending.</desc>
+  <defs>
+    <marker id="water" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#0875bb" />
+    </marker>
+    <marker id="control" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#7350af" />
+    </marker>
+    <marker id="measure" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#087c79" />
+    </marker>
+    <marker id="copy" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#b57b12" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1600" height="1450" rx="0" fill="#ffffff" stroke="#ffffff" stroke-width="2" />
+  <text x="70" y="62" font-family="Arial, sans-serif" font-size="42" fill="#12314d" font-weight="700" text-anchor="start">
+    <tspan x="70" dy="0">DoseProof treatment-line design</tspan>
+  </text>
+  <text x="70" y="102" font-family="Arial, sans-serif" font-size="23" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="70" dy="0">DOS-1 / WBS 1.1.1   |   Software only   |   One isolated laptop   |   Prepared for review</tspan>
+  </text>
+  <rect x="45" y="145" width="1510" height="270" rx="20" fill="#f4f6fb" stroke="#dbe2ef" stroke-width="2" />
+  <text x="70" y="181" font-family="Arial, sans-serif" font-size="19" fill="#54687c" font-weight="700" text-anchor="start">
+    <tspan x="70" dy="0">CONTROL AND PROCESS VIEW</tspan>
+  </text>
+  <rect x="80" y="210" width="400" height="140" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="102" y="249" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="102" dy="0">Operator desk</tspan>
+  </text>
+  <text x="102" y="286" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="102" dy="0">Named user requests feed (mg/s)</tspan>
+    <tspan x="102" dy="29.700000000000003">Different user approves the request</tspan>
+  </text>
+  <rect x="650" y="210" width="380" height="140" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="672" y="249" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="672" dy="0">Software controller</tspan>
+  </text>
+  <text x="672" y="286" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="672" dy="0">Accepted feed (mg/s)</tspan>
+    <tspan x="672" dy="29.700000000000003">Command accepted / rejected</tspan>
+  </text>
+  <rect x="1200" y="210" width="320" height="140" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="1222" y="249" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="1222" dy="0">FUXA process view</tspan>
+  </text>
+  <text x="1222" y="286" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="1222" dy="0">Read-only snapshots</tspan>
+    <tspan x="1222" dy="29.700000000000003">Settings, delivery, flow, A/B</tspan>
+  </text>
+  <polyline points="480,263 650,263" fill="none" stroke="#7350af" stroke-width="4" stroke-linejoin="round" marker-end="url(#control)" />
+  <text x="565" y="232" font-family="Arial, sans-serif" font-size="20" fill="#7350af" font-weight="600" text-anchor="middle">
+    <tspan x="565" dy="0">Approved</tspan>
+    <tspan x="565" dy="25">command</tspan>
+  </text>
+  <polyline points="650,323 600,323 600,380 280,380 280,350" fill="none" stroke="#7350af" stroke-width="3" stroke-linejoin="round" marker-end="url(#control)" />
+  <text x="450" y="405" font-family="Arial, sans-serif" font-size="20" fill="#7350af" font-weight="400" text-anchor="middle">
+    <tspan x="450" dy="0">Acknowledgement back to the desk</tspan>
+  </text>
+  <polyline points="1030,285 1200,285" fill="none" stroke="#087c79" stroke-width="4" stroke-linejoin="round" marker-end="url(#measure)" />
+  <text x="1115" y="235" font-family="Arial, sans-serif" font-size="20" fill="#087c79" font-weight="600" text-anchor="middle">
+    <tspan x="1115" dy="0">Modbus TCP</tspan>
+    <tspan x="1115" dy="25">readings</tspan>
+  </text>
+  <rect x="45" y="445" width="1510" height="565" rx="20" fill="#f2f9fc" stroke="#d0e6f1" stroke-width="2" />
+  <text x="70" y="480" font-family="Arial, sans-serif" font-size="19" fill="#54687c" font-weight="700" text-anchor="start">
+    <tspan x="70" dy="0">WATER, CHEMICAL ADDITION AND MEASUREMENTS</tspan>
+  </text>
+  <rect x="330" y="525" width="320" height="112" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="352" y="564" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="352" dy="0">Chlorine dosing pump</tspan>
+  </text>
+  <text x="352" y="601" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="352" dy="0">Actual delivery (mg/s)</tspan>
+  </text>
+  <text x="120" y="563" font-family="Arial, sans-serif" font-size="22" fill="#087c79" font-weight="400" text-anchor="start">
+    <tspan x="120" dy="0">Simulated</tspan>
+    <tspan x="120" dy="29.700000000000003">chlorine feed</tspan>
+  </text>
+  <polyline points="250,585 330,585" fill="none" stroke="#087c79" stroke-width="4" stroke-linejoin="round" marker-end="url(#measure)" />
+  <polyline points="840,350 840,435 540,435 540,525" fill="none" stroke="#7350af" stroke-width="4" stroke-linejoin="round" marker-end="url(#control)" />
+  <text x="710" y="460" font-family="Arial, sans-serif" font-size="20" fill="#7350af" font-weight="600" text-anchor="middle">
+    <tspan x="710" dy="0">Accepted setting</tspan>
+  </text>
+  <polyline points="650,610 1065,610 1065,375 990,375 990,350" fill="none" stroke="#087c79" stroke-width="3" stroke-linejoin="round" marker-end="url(#measure)" />
+  <text x="1085" y="428" font-family="Arial, sans-serif" font-size="20" fill="#087c79" font-weight="400" text-anchor="start">
+    <tspan x="1085" dy="0">Equipment feedback:</tspan>
+    <tspan x="1085" dy="27.0">actual delivery (mg/s)</tspan>
+  </text>
+  <rect x="80" y="685" width="215" height="110" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="102" y="724" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="102" dy="0">Water inlet</tspan>
+  </text>
+  <text x="102" y="761" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="102" dy="0">Flow (L/s)</tspan>
+  </text>
+  <rect x="670" y="665" width="350" height="150" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="692" y="704" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="692" dy="0">Mixing + contact tank</tspan>
+  </text>
+  <text x="692" y="741" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="692" dy="0">Modeled water state</tspan>
+    <tspan x="692" dy="29.700000000000003">Residual chlorine (mg/L)</tspan>
+  </text>
+  <rect x="1300" y="685" width="220" height="110" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="1322" y="724" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="1322" dy="0">Water outlet</tspan>
+  </text>
+  <text x="1322" y="761" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="1322" dy="0">Simulated water</tspan>
+  </text>
+  <polyline points="295,740 670,740" fill="none" stroke="#0875bb" stroke-width="6" stroke-linejoin="round" marker-end="url(#water)" />
+  <polyline points="1020,740 1300,740" fill="none" stroke="#0875bb" stroke-width="6" stroke-linejoin="round" marker-end="url(#water)" />
+  <text x="455" y="780" font-family="Arial, sans-serif" font-size="21" fill="#0875bb" font-weight="600" text-anchor="middle">
+    <tspan x="455" dy="0">Water flow</tspan>
+  </text>
+  <polyline points="480,637 480,740" fill="none" stroke="#087c79" stroke-width="5" stroke-linejoin="round" marker-end="url(#measure)" />
+  <circle cx="480" cy="740" r="10" fill="#087c79" stroke="white" stroke-width="3" />
+  <text x="494" y="686" font-family="Arial, sans-serif" font-size="21" fill="#087c79" font-weight="400" text-anchor="start">
+    <tspan x="494" dy="0">Chlorine</tspan>
+    <tspan x="494" dy="28.35">added</tspan>
+  </text>
+  <polyline points="845,815 845,850 1180,850 1180,875" fill="none" stroke="#087c79" stroke-width="3" stroke-linejoin="round" marker-end="url(#measure)" />
+  <polyline points="845,850 1420,850 1420,875" fill="none" stroke="#087c79" stroke-width="3" stroke-linejoin="round" marker-end="url(#measure)" />
+  <text x="900" y="835" font-family="Arial, sans-serif" font-size="20" fill="#087c79" font-weight="400" text-anchor="start">
+    <tspan x="900" dy="0">Separate adapters sample the SAME modeled water</tspan>
+  </text>
+  <rect x="1060" y="875" width="240" height="122" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="1082" y="914" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="1082" dy="0">Sensor A</tspan>
+  </text>
+  <text x="1082" y="951" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="1082" dy="0">Residual (mg/L)</tspan>
+    <tspan x="1082" dy="29.700000000000003">Source, time, quality</tspan>
+  </text>
+  <rect x="1320" y="875" width="240" height="122" rx="16" fill="#ffffff" stroke="#c9d6df" stroke-width="2" />
+  <text x="1342" y="914" font-family="Arial, sans-serif" font-size="27" fill="#203448" font-weight="700" text-anchor="start">
+    <tspan x="1342" dy="0">Sensor B</tspan>
+  </text>
+  <text x="1342" y="951" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="1342" dy="0">Residual (mg/L)</tspan>
+    <tspan x="1342" dy="29.700000000000003">Source, time, quality</tspan>
+  </text>
+  <text x="80" y="890" font-family="Arial, sans-serif" font-size="22" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="80" dy="0">A and B can have separate software faults.</tspan>
+    <tspan x="80" dy="29.700000000000003">Both still share the model and laptop.</tspan>
+  </text>
+  <text x="70" y="1035" font-family="Arial, sans-serif" font-size="19" fill="#54687c" font-weight="700" text-anchor="start">
+    <tspan x="70" dy="0">COPIED RECORDS FOR THE FUTURE EVIDENCE WORKFLOW</tspan>
+  </text>
+  <rect x="80" y="1060" width="440" height="90" rx="12" fill="#fffaf0" stroke="#e8d6ae" stroke-width="2" />
+  <text x="98" y="1094" font-family="Arial, sans-serif" font-size="23" fill="#b57b12" font-weight="700" text-anchor="start">
+    <tspan x="98" dy="0">Desk copies</tspan>
+  </text>
+  <text x="98" y="1128" font-family="Arial, sans-serif" font-size="21" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="98" dy="0">Request, approval, execution</tspan>
+  </text>
+  <polyline points="300,1150 300,1205" fill="none" stroke="#b57b12" stroke-width="4" stroke-linejoin="round" marker-end="url(#copy)" stroke-dasharray="10 7" />
+  <rect x="580" y="1060" width="440" height="90" rx="12" fill="#fffaf0" stroke="#e8d6ae" stroke-width="2" />
+  <text x="598" y="1094" font-family="Arial, sans-serif" font-size="23" fill="#b57b12" font-weight="700" text-anchor="start">
+    <tspan x="598" dy="0">Controller / model copies</tspan>
+  </text>
+  <text x="598" y="1128" font-family="Arial, sans-serif" font-size="21" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="598" dy="0">Setting, acknowledgement, delivery</tspan>
+  </text>
+  <polyline points="800,1150 800,1205" fill="none" stroke="#b57b12" stroke-width="4" stroke-linejoin="round" marker-end="url(#copy)" stroke-dasharray="10 7" />
+  <rect x="1080" y="1060" width="440" height="90" rx="12" fill="#fffaf0" stroke="#e8d6ae" stroke-width="2" />
+  <text x="1098" y="1094" font-family="Arial, sans-serif" font-size="23" fill="#b57b12" font-weight="700" text-anchor="start">
+    <tspan x="1098" dy="0">Sensor copies</tspan>
+  </text>
+  <text x="1098" y="1128" font-family="Arial, sans-serif" font-size="21" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="1098" dy="0">A/B value, time and quality</tspan>
+  </text>
+  <polyline points="1300,1150 1300,1205" fill="none" stroke="#b57b12" stroke-width="4" stroke-linejoin="round" marker-end="url(#copy)" stroke-dasharray="10 7" />
+  <rect x="80" y="1205" width="1440" height="120" rx="16" fill="#f4f8f7" stroke="#b9d6cf" stroke-width="2" />
+  <text x="800" y="1250" font-family="Arial, sans-serif" font-size="29" fill="#165d57" font-weight="700" text-anchor="middle">
+    <tspan x="800" dy="0">Future DoseProof observer - layers 2-8</tspan>
+  </text>
+  <text x="800" y="1290" font-family="Arial, sans-serif" font-size="24" fill="#203448" font-weight="400" text-anchor="middle">
+    <tspan x="800" dy="0">Receives event copies only. No dosing-command path returns to the plant.</tspan>
+  </text>
+  <polyline points="80,1370 135,1370" fill="none" stroke="#0875bb" stroke-width="4" stroke-linejoin="round" marker-end="url(#water)" />
+  <text x="150" y="1378" font-family="Arial, sans-serif" font-size="20" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="150" dy="0">Water path</tspan>
+  </text>
+  <polyline points="435,1370 490,1370" fill="none" stroke="#7350af" stroke-width="4" stroke-linejoin="round" marker-end="url(#control)" />
+  <text x="505" y="1378" font-family="Arial, sans-serif" font-size="20" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="505" dy="0">Command / response</tspan>
+  </text>
+  <polyline points="835,1370 890,1370" fill="none" stroke="#087c79" stroke-width="4" stroke-linejoin="round" marker-end="url(#measure)" />
+  <text x="905" y="1378" font-family="Arial, sans-serif" font-size="20" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="905" dy="0">Delivery / observation</tspan>
+  </text>
+  <polyline points="1250,1370 1305,1370" fill="none" stroke="#b57b12" stroke-width="4" stroke-linejoin="round" marker-end="url(#copy)" stroke-dasharray="10 7" />
+  <text x="1320" y="1378" font-family="Arial, sans-serif" font-size="20" fill="#203448" font-weight="400" text-anchor="start">
+    <tspan x="1320" dy="0">Copied records</tspan>
+  </text>
+  <text x="80" y="1422" font-family="Arial, sans-serif" font-size="22" fill="#54687c" font-weight="400" text-anchor="start">
+    <tspan x="80" dy="0">Design evidence only. Donald review, Tranos display check and Stephen control check are pending.</tspan>
+  </text>
+</svg>
