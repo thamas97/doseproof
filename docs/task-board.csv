@@ -1,5 +1,5 @@
 "wbs_id","description","status","owner","reviewer","actual_result","evidence_path","blocker","next_action"
-"1.1.1","Describe one treatment line: water flow, chlorine dosing pump, contact tank and two virtual chlorine sensors.","To do","","","","","",""
+"1.1.1","Describe one treatment line: water flow, chlorine dosing pump, contact tank and two virtual chlorine sensors.","Review","Thabani","Donald","Treatment-line scope and matching SVG/PNG sketch prepared; team acceptance pending; no runtime completion claimed.","docs/scope.md; docs/process-sketch.svg; docs/process-sketch.png","","Tranos checks display feasibility; Stephen checks control meanings; Donald reviews DOS-1. Record the checks before acceptance."
 "1.1.2","Agree the teaching assumptions, units and response delays; label values as simulation settings rather than real treatment limits.","To do","","","","","",""
 "1.1.3","Write small stories for normal operation, an approved change, an unapproved change, equipment failure and unreliable sensor readings.","To do","","","","","",""
 "1.1.4","Define the expected behaviour and evidence for each story before implementation.","To do","","","","","",""

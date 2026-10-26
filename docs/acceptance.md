@@ -14,6 +14,18 @@ All rows start **Pending**. Record Met, Partly met, or Blocked only after observ
 | 1.8 | Later connectors have documented source records and repeatable examples to consume. | Pending | — | — |
 | 1.9 | The software-only plant is repeatable, demonstrable and ready for elements 2–8 to connect. | Pending | — | — |
 
+## DOS-1 / WBS 1.1.1 documentation review
+
+This subtask entry does not close the WBS 1.1 group above or establish any live plant behaviour.
+
+| WBS | Observable acceptance | Status | Evidence | Reviewer |
+| --- | --- | --- | --- | --- |
+| 1.1.1 / DOS-1 | One agreed treatment-line sketch identifies inlet/flow, chemical injection, dosing pump, tank, outlet and A/B sources, separately labelling settings, delivery and measurements. | Pending | [Scope and review record](scope.md); [PNG](process-sketch.png); [editable SVG](process-sketch.svg) | Donald: pending. |
+
+**Actual documentation result:** The scope and matching SVG/PNG sketch are prepared for review. No implementation, runtime evidence or human approval is implied.  
+**Contributor checks:** Tranos (FUXA display feasibility): pending; Stephen (control meanings): pending.  
+**Next action:** Record both contributor checks and Donald's review, resolve any comments, then record acceptance. DOS-2 through DOS-4 remain separate work.
+
 ## Required scenario observations
 
 - Baseline and approved 15 → 20 mg/s: actual delivery changes before residual tends toward 1.50 mg/L; retain the action change ID.
