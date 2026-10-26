@@ -14,6 +14,18 @@ All rows start **Pending**. Record Met, Partly met, or Blocked only after observ
 | 1.8 | Later connectors have documented source records and repeatable examples to consume. | Pending | — | — |
 | 1.9 | The software-only plant is repeatable, demonstrable and ready for elements 2–8 to connect. | Pending | — | — |
 
+## DOS-2 / WBS 1.1.2 — teaching-settings documentation
+
+| WBS | Observable acceptance | Status | Evidence | Reviewer |
+| --- | --- | --- | --- | --- |
+| 1.1.2 | Units, initial state, tick/delay and pause/reset meanings are agreed and explicitly labelled teaching assumptions. | Pending | [Teaching settings and calculated examples](teaching-settings.md); named reviews pending. | Donald — pending |
+
+**Actual documentation result:** existing baseline values retained; glossary, baseline/approved-step calculations, four unchanged updates followed by a step-5 response, lifecycle meanings and source-data limitations prepared for review. These are calculated expectations, not captured runtime evidence.
+
+**Named checks:** Katekiso — calculation/timing pending; Emmanuel — units/identity/timestamps/missing-data pending; Donald — DOS-2 acceptance pending. DOS-1's scope review is a pending input; this independent change does not accept or import its unmerged deliverables.
+
+**Parent WBS 1.1 remains Pending.** DOS-3/DOS-4 stories and checks, runtime implementation and live validation remain separate work. Documentation verification does not substitute for human agreement.
+
 ## Required scenario observations
 
 - Baseline and approved 15 → 20 mg/s: actual delivery changes before residual tends toward 1.50 mg/L; retain the action change ID.
