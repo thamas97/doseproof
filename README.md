@@ -4,6 +4,8 @@ DoseProof Layer 1 is a software-only water-treatment plant for demonstrating the
 
 This repository starts the team workspace described in the **DoseProof Layer 1 All Member Task Runbook**. It contains the project structure, proposed interface contracts, scenario settings, and all 36 WBS tasks. The plant application, authenticated desk, Modbus service, and FUXA screen still need to be implemented. All live acceptance checks are pending.
 
+The [DOS-3 simulation stories](docs/story-checks.md) describe normal, approved, lab-unapproved, equipment-fault and unreliable-monitoring behaviour. They are prepared for review; detailed DOS-4 checks and live evidence remain pending.
+
 ## Scope
 
 - One teaching model: water inlet, dosing pump, contact tank, and sensors A/B.

@@ -14,6 +14,18 @@ All rows start **Pending**. Record Met, Partly met, or Blocked only after observ
 | 1.8 | Later connectors have documented source records and repeatable examples to consume. | Pending | — | — |
 | 1.9 | The software-only plant is repeatable, demonstrable and ready for elements 2–8 to connect. | Pending | — | — |
 
+## DOS-3 / WBS 1.1.3 — five simulation stories
+
+| WBS | Observable acceptance | Status | Evidence | Reviewer |
+| --- | --- | --- | --- | --- |
+| 1.1.3 | Five short stories cover normal, approved, lab-unapproved, equipment-fault and unreliable-monitoring cases with named actors. | Pending | [US-01 through US-05 and review record](story-checks.md); named checks pending. | Donald — pending |
+
+**Actual documentation result:** five stable story IDs, illustrative actors, action summaries, intended observable outcomes and source-record meanings prepared for review. Stopped pump and missing A are the main fault examples; other variants are handed to DOS-4. No executed scenarios, configured accounts, human approvals or runtime evidence are claimed.
+
+**Named checks:** Stephen — control/equipment review pending; Donald — actors/approval and acceptance review pending. DOS-1/PR #1 and DOS-2/PR #2 remain pending inputs; their unmerged files and sign-offs are not imported.
+
+**Parent WBS 1.1 remains Pending.** Detailed DOS-4 checks, implementation, live evidence and assurance verdicts are separate work.
+
 ## Required scenario observations
 
 - Baseline and approved 15 → 20 mg/s: actual delivery changes before residual tends toward 1.50 mg/L; retain the action change ID.

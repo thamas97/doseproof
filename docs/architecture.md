@@ -25,6 +25,8 @@ Pause freezes simulation steps. Reset clears command/delay queues and faults, re
 
 ## Trust boundaries
 
+Read the [DOS-3 stories](story-checks.md) for the five proposed scenario narratives. Named reviews, preceding scope/settings agreement and detailed DOS-4 checks remain pending; the architecture proposal below is unchanged.
+
 The authenticated desk executes normal commands only after a different named user approves the matching request and value/range before expiry. Refuse anonymous requests, self-approval, expired/mismatched approval, and duplicate execution on the server. Store password hashes and keep session secrets outside Git.
 
 FUXA is an observer. Server-side observer writes must be denied and verified to leave state unchanged; removing screen controls alone does not enforce this boundary. The lab-only unapproved path must be explicitly labelled and leave actor and command records.
