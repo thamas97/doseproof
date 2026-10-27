@@ -14,6 +14,20 @@ All rows start **Pending**. Record Met, Partly met, or Blocked only after observ
 | 1.8 | Later connectors have documented source records and repeatable examples to consume. | Pending | — | — |
 | 1.9 | The software-only plant is repeatable, demonstrable and ready for elements 2–8 to connect. | Pending | — | — |
 
+## DOS-4 / WBS 1.1.4 — check and evidence definitions
+
+| WBS | Observable documentation acceptance | Status | Evidence | Reviewer |
+| --- | --- | --- | --- | --- |
+| 1.1.4 | Each story has starting conditions, an action, observable expected result, evidence location and reviewer; six handed-over fault variants are covered. | Pending | [Eleven check definitions and named review record](acceptance-checks.md). | Donald — pending |
+
+**Actual documentation result:** five main checks plus six variants prepared, with step-aligned expectations, proposed tolerances, unique planned evidence filenames and cleanup. All eleven runtime results are **Not run**. No source records, screenshots, real approvals or executed test results are fabricated.
+
+**Named findings:** Katekiso — calculation/timing/tolerances pending; Emmanuel — data/evidence meanings pending; Donald — actors/approval and acceptance pending; Stephen — controller interface pending; Tranos — display interface pending; Thabani — integration/completeness pending. DOS-1/DOS-2/DOS-3 inputs remain pending.
+
+**Board status:** In Progress, documentation prepared and awaiting review capacity. Review held four cards at preparation; moving this card to Review requires fewer than three cards already there. Other cards are not changed.
+
+**Parent WBS 1.1 remains Pending.** DOS-4 acceptance covers agreed definitions, not passed runtime checks; actual execution belongs to later implementation.
+
 ## Required scenario observations
 
 - Baseline and approved 15 → 20 mg/s: actual delivery changes before residual tends toward 1.50 mg/L; retain the action change ID.
