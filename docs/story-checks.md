@@ -18,7 +18,7 @@ DOS-3 describes five small pieces of intended behaviour. Each story has a stable
 | US-04 | Stopped dosing pump despite an approved setting |
 | US-05 | Missing Sensor A while B and the plant continue |
 
-**Illustrative actors:** Thabani is the requester and observer; Donald is the different-user approver; Stephen operates lab fault/scenario controls. These proposed scenario assignments do not establish real accounts, permissions, actions or sign-off. Donald's illustrative in-story approval is separate from his still-pending review of this document.
+**Illustrative actors:** Emmanuel is the requester and observer; Donald is the different-user approver; Stephen operates lab fault/scenario controls. These proposed scenario assignments do not establish real accounts, permissions, actions or sign-off. Donald's illustrative in-story approval is separate from his still-pending review of this document.
 
 **Pending inputs:** [DOS-1 / PR #1](https://github.com/thamas97/doseproof/pull/1) supplies the treatment-line scope; [DOS-2 / PR #2](https://github.com/thamas97/doseproof/pull/2) explains the teaching settings and timing. Both remain under review. This independent branch starts from main, does not import their unmerged files and does not accept their assumptions on the team's behalf. Reconcile relevant feedback before accepting dependent stories.
 
@@ -26,9 +26,9 @@ The existing [architecture](architecture.md), [baseline scenario](../scenarios/b
 
 ## US-01 — Observe normal operation
 
-**Story:** As Thabani, the process observer, I want to see the normal water-treatment state so that I can understand the baseline before interpreting a change or fault.
+**Story:** As Emmanuel, the process observer, I want to see the normal water-treatment state so that I can understand the baseline before interpreting a change or fault.
 
-**Named actors:** Thabani observes. No new requester/approver action is needed just to observe initialized state.
+**Named actors:** Emmanuel observes. No new requester/approver action is needed just to observe initialized state.
 
 **Action summary:** Observe the initialized process with positive water flow, a running healthy dosing pump and both sensor sources operating normally. Compare separately labelled settings, actual delivery and A/B observations.
 
@@ -38,11 +38,11 @@ The existing [architecture](architecture.md), [baseline scenario](../scenarios/b
 
 ## US-02 — Make an approved change
 
-**Story:** As Thabani, the requester, I want a different named user to approve my dosing request so that the authorized change and its actual process response can be traced separately.
+**Story:** As Emmanuel, the requester, I want a different named user to approve my dosing request so that the authorized change and its actual process response can be traced separately.
 
-**Named actors:** Thabani requests; Donald approves the matching request as a different user. The software controller executes the approved path and records its response.
+**Named actors:** Emmanuel requests; Donald approves the matching request as a different user. The software controller executes the approved path and records its response.
 
-**Action summary:** From the baseline proposal, Thabani requests 20 mg/s. Donald authorizes that matching request. The controller handles the command; the pump/model reports actual delivery, and the sensors subsequently observe the modeled water.
+**Action summary:** From the baseline proposal, Emmanuel requests 20 mg/s. Donald authorizes that matching request. The controller handles the command; the pump/model reports actual delivery, and the sensors subsequently observe the modeled water.
 
 **Expected observable outcome:** Requested feed, approval, accepted feed, acknowledgement, actual delivery and measurements remain distinct. With valid approval and a healthy pump, accepted feed and actual delivery become 20 mg/s. The target modeled residual is `max(0, 20 / 10 - 0.50) = 1.50 mg/L`; water response is delayed rather than instantaneous. Using the pending DOS-2 convention, a change before step 1 leaves residual unchanged through steps 1–4, with the first adjustment at step 5. An acknowledgement alone does not prove delivery or correct sensor observations.
 
@@ -62,9 +62,9 @@ The existing [architecture](architecture.md), [baseline scenario](../scenarios/b
 
 ## US-04 — Notice equipment failure after approval
 
-**Story:** As Thabani, the observer, I want to distinguish an approved setting from a stopped dosing pump so that a successful command response is not mistaken for continued chemical delivery.
+**Story:** As Emmanuel, the observer, I want to distinguish an approved setting from a stopped dosing pump so that a successful command response is not mistaken for continued chemical delivery.
 
-**Named actors:** Thabani requests 20 mg/s and Donald authorizes the matching request in this proposed story. Stephen selects the simulated stopped-pump fault. These are illustrative actions, not a dependency on actually executing US-02 first.
+**Named actors:** Emmanuel requests 20 mg/s and Donald authorizes the matching request in this proposed story. Stephen selects the simulated stopped-pump fault. These are illustrative actions, not a dependency on actually executing US-02 first.
 
 **Action summary:** Consider a healthy approved setting of 20 mg/s at positive 10 L/s flow. Then Stephen stops the virtual dosing pump while that accepted setting remains recorded.
 
@@ -74,9 +74,9 @@ The existing [architecture](architecture.md), [baseline scenario](../scenarios/b
 
 ## US-05 — Notice unreliable monitoring
 
-**Story:** As Thabani, the observer, I want to see when Sensor A stops reporting while Sensor B and the plant continue so that an old retained value is not mistaken for a fresh measurement.
+**Story:** As Emmanuel, the observer, I want to see when Sensor A stops reporting while Sensor B and the plant continue so that an old retained value is not mistaken for a fresh measurement.
 
-**Named actors:** Stephen selects the missing-A simulation mode; Thabani observes the result. No dosing approval is implied by this sensor-fault selection.
+**Named actors:** Stephen selects the missing-A simulation mode; Emmanuel observes the result. No dosing approval is implied by this sensor-fault selection.
 
 **Action summary:** With normal plant operation and both sources initially present, Stephen makes A stop producing samples while B continues sampling the same modeled water.
 
