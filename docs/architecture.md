@@ -17,6 +17,8 @@ These are planned files, not implemented modules. One loop owns mutable plant st
 
 ## Teaching model
 
+The [DOS-4 acceptance-check definitions](acceptance-checks.md) explain how later implementation will be evaluated. Criteria and named agreement are pending review; all runtime results are Not run. The architecture proposal below remains unchanged.
+
 At positive flow, `target = max(0, actual_feed_mg_s / flow_l_s - demand_mg_l)`. Delay the response four ticks, then move residual one fifth of the difference toward the delayed target each tick. A one-second tick, 10 L/s, 15 mg/s, demand 0.50 mg/L, and initial residual 1.00 mg/L form the baseline. A valid approved step to 20 mg/s tends toward 1.50 mg/L after the delay.
 
 No flow means zero actual delivery without division. A stopped pump delivers zero; reduced delivery uses factor 0.5; an ignored command retains the prior accepted feed. Keep requested feed, accepted feed, actual delivery, acknowledgement, and sensor values separate.
