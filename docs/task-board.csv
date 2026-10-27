@@ -1,7 +1,7 @@
 "wbs_id","description","status","owner","reviewer","actual_result","evidence_path","blocker","next_action"
 "1.1.1","Describe one treatment line: water flow, chlorine dosing pump, contact tank and two virtual chlorine sensors.","To do","","","","","",""
 "1.1.2","Agree the teaching assumptions, units and response delays; label values as simulation settings rather than real treatment limits.","To do","","","","","",""
-"1.1.3","Write small stories for normal operation, an approved change, an unapproved change, equipment failure and unreliable sensor readings.","To do","","","","","",""
+"1.1.3","Write small stories for normal operation, an approved change, an unapproved change, equipment failure and unreliable sensor readings.","Review","Thabani","Donald","Five named-actor simulation stories prepared with intended outcomes and record meanings; detailed DOS-4 checks, live evidence and named reviews pending.","docs/story-checks.md","DOS-1 scope and DOS-2 teaching-settings reviews remain pending inputs.","Stephen checks control/equipment meanings; Donald checks actors/approval and DOS-3 acceptance. Resolve relevant DOS-1/DOS-2 feedback before acceptance."
 "1.1.4","Define the expected behaviour and evidence for each story before implementation.","To do","","","","","",""
 "1.2.1","Install the open-source version of FUXA and Python with PyModbus on the development laptop; record the versions used.","To do","","","","","",""
 "1.2.2","Install the FUXA Modbus driver through Plugins and configure a local connection to the virtual device.","To do","","","","","",""
